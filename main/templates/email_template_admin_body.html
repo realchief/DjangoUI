@@ -1,0 +1,11 @@
+{% extends "email_template.html" %}
+{% block body %}
+    <p>Name: {{ first_name }}</p>
+    <p>Email: {{email}}</p>
+    <p>Phone Number: {{phone_number}}</p>
+    <p>Company: {{company_name}}</p>
+    <p>Projected License Requirements: {{license_requirements}}</p>
+    <p>Interest Product: {{product_interest}}</p>
+    <p>Purchase Time Frame: {{time_frame}}</p>
+    <p>Note: {{note_use}}</p>
+{% endblock %}

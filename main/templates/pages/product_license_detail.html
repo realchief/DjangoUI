@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load template_variable_math %}
+
+{% block title %}Auth Register License{% endblock %}
+
+{% block content %}
+
+    <div class="section product-license-detail-section" style=" background-image: url({% static 'img/background.png' %}); background-position: top center; min-height: 700px;">
+        <div class="container">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-signup">
+                        <div class="product-license-detail">
+                            <div class="header header-info text-center">
+                                <h4>License Registrations for {{ product_name }}</h4>
+                                <div class="social-line">
+                                    <a href="https://www.facebook.com/openalpr" class="btn btn-simple btn-just-icon">
+                                        <i class="fa fa-facebook-square"></i>
+                                    </a>
+                                    <a href="https://twitter.com/openalpr" class="btn btn-simple btn-just-icon">
+                                        <i class="fa fa-twitter"></i>
+                                    </a>
+                                    <a href="https://www.linkedin.com/company/10472650/" class="btn btn-simple btn-just-icon">
+                                        <i class="fa fa-linkedin"></i>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="content">
+                                <div class="row">
+                                    <div class="col-md-offset-1 col-md-10">
+                                        <table class="table product-license-detail-table">
+                                            <thead>
+                                                <tr>
+                                                    <th class="text-left">User</th>
+                                                    <th class="text-left">License Key</th>
+                                                    <th class="text-left">License Count</th>
+                                                    <th class="text-left">System ID</th>
+                                                    <th class="text-left">Date Registered</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for license in licenses %}
+                                                    <tr>
+                                                        <td>{{ license.user_email }}</td>
+                                                        <td><button class="btn btn-info btn-sm" style="width: 30px;
+                                                                height: 30px;
+                                                                margin: 0;
+                                                                padding: 0;" rel="tooltip" title="Copy License" data-placement="bottom" onclick="copyToClipboard('#license_{{ license.id }}')">
+                                                                <i class="fa fa-copy"></i>
+                                                            </button>
+                                                            <span id="license_{{ license.id }}" style="display: none;">{{ license.key }}</span>
+                                                            <button class="btn btn-success btn-sm" style="width: 30px;
+                                                                height: 30px;
+                                                                margin: 0;
+                                                                padding: 0;" data-toggle="popover" data-placement="right" title="Key:" data-content="{{ license.key }}">
+                                                                <i class="fa fa-eye"></i>
+                                                            </button></td>
+                                                        <td>{{ license.number_licenses }}</td>
+                                                        <td>{{ license.system_hash }}</td>
+                                                        <td>{{ license.date_joined }}</td>
+                                                    </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block additional_scripts %}
+
+    <script type="text/javascript">
+        function copyToClipboard(element) {
+            var $temp = $("<input>");
+            $("body").append($temp);
+            $temp.val($(element).text()).select();
+            document.execCommand("copy");
+            $temp.remove();
+        }
+    </script>
+
+{% endblock %}

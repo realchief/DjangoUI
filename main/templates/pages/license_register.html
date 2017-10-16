@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load template_variable_math %}
+
+{% block title %}Auth Register License{% endblock %}
+
+{% block content %}
+
+    <div class="section register-form-section" style=" background-image: url({% static 'img/background.png' %}); background-position: top center; min-height: 700px;">
+        <div class="container">
+
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                    <div class="card card-signup">
+                        <form class="form auth-evaluation-register-form" method="post" action="">
+                            {% csrf_token %}
+                            <div class="header header-info text-center">
+                                <h4>License Registration</h4>
+                                <div class="social-line">
+                                    <a href="https://www.facebook.com/openalpr" class="btn btn-simple btn-just-icon">
+                                        <i class="fa fa-facebook-square"></i>
+                                    </a>
+                                    <a href="https://twitter.com/openalpr" class="btn btn-simple btn-just-icon">
+                                        <i class="fa fa-twitter"></i>
+                                    </a>
+                                    <a href="https://www.linkedin.com/company/10472650/" class="btn btn-simple btn-just-icon">
+                                        <i class="fa fa-linkedin"></i>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="content">
+                                <div class="row">
+                                    <div class="col-md-offset-1 col-md-10">
+                                        <table class="table auth_licenses_table">
+                                            <thead>
+                                                <tr>
+                                                    <th class="text-left">Product</th>
+                                                    <th class="text-left">Total</th>
+                                                    <th class="text-left">Registered</th>
+                                                    <th class="text-left">Available</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for allowed_product in allowed_products %}
+                                                    <tr id="allowed_product_{{ allowed_product.id }}">
+                                                        <td class="text-left"> <a href="{% url 'main:product_license_detail' product_id=allowed_product.id %}">{{ allowed_product.product_name }}</a></td>
+                                                        <td>{{ allowed_product.total_product }}</td>
+                                                        <td class="product_registered">{{ allowed_product.registered_product }}</td>
+                                                        <td class="product_available">{{ allowed_product.total_product|template_variable_sum:allowed_product.registered_product }}</td>
+                                                    </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <p class="message text-divider col-md-12"></p>
+
+                            <div class="content">
+
+                                <div class="row">
+                                    <div class="col-md-6 ">
+                                        <select class="selectpicker allowed-product-dropdown" id="allowed_product"  name="allowed_product" data-style="btn btn-primary" title="Product License">
+                                            <option disabled selected>Product License</option>
+                                            {% for allowed_product in allowed_products %}
+                                                <option value="{{ allowed_product.id }}">{{ allowed_product.product_name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md-6" style="padding-top: 46px;">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                Available Licenses:
+                                            </span>
+                                            <span class="label label-info licenses_register_amount_text">N/A</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group label-floating system-id-form">
+                                            <label class="control-label">System ID:</label>
+                                            <input type="text" value="" class="form-control" name="system_id" id="system_id"/>
+                                            <a rel="popover" class="form-control-feedback" data-toggle="popover" data-placement="right" title="Help Text" data-content="Run the 'openalpr-licenserequest' command on your system to generate a system ID">
+                                                <i class="material-icons">notifications none</i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                Licenses to Register:
+                                            </span>
+                                            <input type="number" class="form-control" id="license_register"  name="license_register" placeholder="Licenses to Register...">
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="footer text-center">
+                                <button id="auth_key_generate_btn" class="btn btn-primary btn-lg register-btn">Register</button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block additional_scripts %}
+    <script type="text/javascript">
+        var auth_key_generate_ajax_url = "{% url 'main:auth_key_generate_ajax' %}";
+    </script>
+
+    <script src="{% static 'js/main/auth_key_generate_ajax.js' %}" type="text/javascript"></script>
+{% endblock %}

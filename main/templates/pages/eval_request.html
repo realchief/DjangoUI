@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Register License{% endblock %}
+
+{% block content %}
+
+    <div class="section register-form-section" style=" background-image: url({% static 'img/background.png' %}); background-position: top center; min-height: 700px;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                    <div class="card card-signup">
+                        <form class="form evaluation-form" method="post" action="">
+                            {% csrf_token %}
+                            <div class="header header-info text-center">
+                                <h4>Evaluation License Request</h4>
+                                <div class="social-line">
+                                    <a href="https://www.facebook.com/openalpr" class="btn btn-simple btn-just-icon">
+                                        <i class="fa fa-facebook-square"></i>
+                                    </a>
+                                    <a href="https://twitter.com/openalpr" class="btn btn-simple btn-just-icon">
+                                        <i class="fa fa-twitter"></i>
+                                    </a>
+                                    <a href="https://www.linkedin.com/company/10472650/" class="btn btn-simple btn-just-icon">
+                                        <i class="fa fa-linkedin"></i>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <p class="message text-divider col-md-12"></p>
+
+                            <p class="text-divider">Please fill out the form below to request a free, 14 day evaluation key.</p>
+
+                            <div class="content">
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <i class="material-icons">face</i>
+                                            </span>
+                                            <input type="text" class="form-control" id="customer_name" name="name" placeholder="Name..." required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <i class="material-icons">email</i>
+                                            </span>
+                                            <input type="email" class="form-control" id="customer_email"   name="email" placeholder="Email..." required>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <i class="material-icons">account_balance</i>
+                                            </span>
+                                            <input type="text" class="form-control" id="customer_company_name"  name="company_name" placeholder="Company Name..." required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <i class="material-icons">phone</i>
+                                            </span>
+                                            <input type="text" class="form-control" id="customer_phone_number"  name="phone_number" placeholder="Phone Number..." required>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <select class="selectpicker license-requirements-dropdown" id="license_requirement"  name="license_requirement" data-style="btn btn-primary" title="License Requirements" data-size="7">
+                                            <option value="0" disabled selected>License Requirements</option>
+                                            {% for obj in license_requirements_list %}
+                                                <option value="{{ obj.name }}">{{ obj.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <select class="selectpicker product-interest-dropdown" id="interest_product" name="interest_product" data-style="btn btn-primary" title="Product Interest" data-size="7">
+                                            <option value="0" disabled selected>Product Interest</option>
+                                            {% for obj in interest_products_list %}
+                                                <option value="{{ obj.name }}">{{ obj.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <select class="selectpicker time-frame-dropdown" id="time_frame"  name="time_frame" data-style="btn btn-primary" title="Purchase Time Frame" data-size="7">
+                                            <option value="0" disabled selected>Purchase Time Frame</option>
+                                            {% for obj in time_frame_list %}
+                                                <option value="{{ obj.name }}">{{ obj.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <i class="material-icons">event_note</i>
+                                            </span>
+                                            <textarea class="form-control" name="note_use" id="note_use" placeholder="How will you use OpenALPR?" rows="5" required></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="footer text-center">
+                                <button id="free_key_generate_btn" class="btn btn-primary btn-lg register-btn">Send Request</button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block additional_scripts %}
+    <script type="text/javascript">
+        var free_key_generate_ajax_url = "{% url 'main:free_key_generate_ajax' %}";
+    </script>
+
+    <script src="{% static 'js/main/free_key_generate_ajax.js' %}" type="text/javascript"></script>
+{% endblock %}

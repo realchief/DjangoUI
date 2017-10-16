@@ -1,0 +1,10 @@
+{% extends "email_template.html" %}
+{% block body %}
+    <p>{{ first_name }},</p>
+    <p>We are excited to help you begin your test drive of OpenALPR software.  Please find your 14-day evaluation code below:</p>
+        <p>{{license_key}}</p>
+
+    <p>Visit <a href="http://doc.openalpr.com/">doc.openalpr.com</a> for the download links and installation instructions for the product you're interested in.</p>
+    <p>If you have any questions, don't hesitate to e-mail <a href="mailto:info@openalpr.com">info@openalpr.com</a>.</p>
+
+{% endblock %}
